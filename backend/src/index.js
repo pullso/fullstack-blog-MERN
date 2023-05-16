@@ -8,6 +8,7 @@ import handleValidationErrors from "../utils/handleValidationErrors.js";
 import {PostController, UserController} from "../controllers/index.js";
 import * as dotenv from 'dotenv'
 import cors from "cors";
+import {getAllPopular} from "../controllers/PostController.js";
 
 dotenv.config()
 
@@ -40,7 +41,9 @@ app.post('/auth/register', registerValidation, handleValidationErrors, UserContr
 app.get('/auth/me', checkAuth, UserController.getMe)
 
 app.get('/tags', PostController.getLastTags)
+app.get('/tags/:tag', PostController.getAllByTag)
 app.get('/posts', PostController.getAll)
+app.get('/popular', PostController.getAllPopular)
 app.get('/posts/:id', PostController.getOne)
 app.post('/posts', checkAuth, postValidation, handleValidationErrors, PostController.create)
 app.delete('/posts/:id', checkAuth, PostController.remove)

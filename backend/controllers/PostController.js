@@ -3,8 +3,8 @@ import PostModel from "../models/Post.js";
 export const getLastTags = async (req, res) => {
   try {
     const posts = await PostModel.find().limit(5).exec()
-    const tags = posts?.map(p=>p?.tags).flat()
-    const uniqueTags = [...new Set(tags)].slice(0,5)
+    const tags = posts?.map(p => p?.tags).flat()
+    const uniqueTags = [...new Set(tags)].slice(0, 5)
     res.json(uniqueTags)
   } catch (e) {
     console.log(e)
@@ -38,6 +38,31 @@ export const create = async (req, res) => {
 export const getAll = async (req, res) => {
   try {
     const posts = await PostModel.find().populate('user', 'fullName email').exec()
+    res.json(posts)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: "can not get posts"
+    })
+  }
+}
+
+export const getAllByTag = async (req, res) => {
+  try {
+    const posts = await PostModel.find({ tags: { $in: [req.params.tag] } }).populate('user', 'fullName' +
+      ' email').exec()
+    res.json(posts)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: "can not get posts"
+    })
+  }
+}
+
+export const getAllPopular = async (req, res) => {
+  try {
+    const posts = await PostModel.find().sort('-viewsCount').populate('user', 'fullName email').exec()
     res.json(posts)
   } catch (e) {
     console.log(e)
