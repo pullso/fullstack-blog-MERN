@@ -7,6 +7,8 @@ import multer from "multer";
 import handleValidationErrors from "../utils/handleValidationErrors.js";
 import {PostController, UserController} from "../controllers/index.js";
 import * as dotenv from 'dotenv'
+import cors from "cors";
+
 dotenv.config()
 
 
@@ -30,12 +32,14 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 
 app.use(express.json())
+app.use(cors())
 app.use('/uploads', express.static('uploads'))
 
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login)
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register)
 app.get('/auth/me', checkAuth, UserController.getMe)
 
+app.get('/tags', PostController.getLastTags)
 app.get('/posts', PostController.getAll)
 app.get('/posts/:id', PostController.getOne)
 app.post('/posts', checkAuth, postValidation, handleValidationErrors, PostController.create)

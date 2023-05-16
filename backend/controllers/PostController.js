@@ -1,5 +1,20 @@
 import PostModel from "../models/Post.js";
 
+export const getLastTags = async (req, res) => {
+  try {
+    const posts = await PostModel.find().limit(5).exec()
+    const tags = posts?.map(p=>p?.tags).flat()
+    const uniqueTags = [...new Set(tags)].slice(0,5)
+    res.json(uniqueTags)
+  } catch (e) {
+    console.log(e)
+    res.status(500).json({
+      message: "can not get posts"
+    })
+  }
+};
+
+
 export const create = async (req, res) => {
   try {
     const doc = new PostModel({
@@ -11,7 +26,6 @@ export const create = async (req, res) => {
     })
 
     const post = await doc.save()
-
     res.json(post)
   } catch (e) {
     console.log(e)

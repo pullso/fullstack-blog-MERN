@@ -8,26 +8,27 @@ import TagIcon from "@mui/icons-material/Tag";
 import ListItemText from "@mui/material/ListItemText";
 import Skeleton from "@mui/material/Skeleton";
 
-import { SideBlock } from "./SideBlock";
+import {SideBlock} from "./SideBlock";
 
-export const TagsBlock = ({ items, isLoading = true }) => {
+export const TagsBlock = ({items, isLoading = true}) => {
   return (
     <SideBlock title="Тэги">
       <List>
         {(isLoading ? [...Array(5)] : items).map((name, i) => (
           <a
-            style={{ textDecoration: "none", color: "black" }}
+            key={i}
+            style={{textDecoration: "none", color: "black"}}
             href={`/tags/${name}`}
           >
             <ListItem key={i} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
-                  <TagIcon />
+                  <TagIcon/>
                 </ListItemIcon>
                 {isLoading ? (
-                  <Skeleton width={100} />
+                  <Skeleton width={100}/>
                 ) : (
-                  <ListItemText primary={name} />
+                  <ListItemText primary={name}/>
                 )}
               </ListItemButton>
             </ListItem>
