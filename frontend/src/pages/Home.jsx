@@ -8,6 +8,7 @@ import {TagsBlock} from '../components/TagsBlock';
 import {CommentsBlock} from '../components/CommentsBlock';
 import {fetchPosts, fetchTags} from "../redux/slices/posts";
 import {useDispatch, useSelector} from "react-redux";
+import {getImage} from "../utils/getImage";
 
 
 export const Home = () => {
@@ -21,6 +22,7 @@ export const Home = () => {
     dispatch(fetchPosts())
     dispatch(fetchTags())
   }, []);
+
 
   return (
     <>
@@ -37,7 +39,7 @@ export const Home = () => {
                     key={post._id}
                     _id={post._id}
                     title={post.title}
-                    imageUrl={post.imageUrl}
+                    imageUrl={getImage(post.imageUrl)}
                     user={post.user}
                     createdAt={new Date(post.createdAt).toLocaleString()}
                     viewsCount={post.viewsCount}

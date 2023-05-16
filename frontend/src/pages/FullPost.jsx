@@ -6,6 +6,7 @@ import {useParams} from "react-router-dom";
 import axios from "../axios";
 import ReactMarkdown from "react-markdown";
 import styles from "./AddPost/AddPost.module.scss";
+import {getImage} from "../utils/getImage";
 
 export const FullPost = () => {
   const [post, setPost] = useState({});
@@ -28,13 +29,14 @@ export const FullPost = () => {
     return <Post isLoading={isLoading}/>
   }
 
+
   return (
     <>
       <Post
         key={post._id}
         _id={post._id}
         title={post.title}
-        imageUrl={post.imageUrl.startsWith('htt') ? post.imageUrl : 'http://localhost:4444/' + post.imageUrl}
+        imageUrl={getImage(post.imageUrl)}
         user={post.user}
         createdAt={new Date(post.createdAt).toLocaleString()}
         viewsCount={post.viewsCount}

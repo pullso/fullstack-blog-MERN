@@ -13,6 +13,10 @@ export const
     return data
   })
 
+export const
+  fetchRemovePost = createAsyncThunk('posts/fetchRemovePost', async (id) => await axios.delete(`/posts/${id}`)
+  )
+
 const initialState = {
   posts: {
     items: [],
@@ -40,6 +44,7 @@ const postSlice = createSlice({
       state.posts.items = []
       state.posts.status = 'error';
     },
+
     [fetchTags.pending]: (state) => {
       state.tags.status = 'loading';
     },
@@ -50,6 +55,10 @@ const postSlice = createSlice({
     [fetchTags.rejected]: (state) => {
       state.tags.items = []
       state.tags.status = 'error';
+    },
+
+    [fetchRemovePost.pending]: (state, action) => {
+      state.posts.items = state.posts.items.filter(p => p._id !== action.meta.arg);
     },
   }
 })
